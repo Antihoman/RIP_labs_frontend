@@ -1,53 +1,57 @@
 import { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { BigCCard, ICardProps } from '../components/Card';
+import { useLocation, useParams } from 'react-router-dom';
+import { BigCCard } from '../components/Card';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
+
 import LoadAnimation from '../components/LoadAnimation';
-import { getCard } from '../requests/GetCard'
+
+import { getCard } from '../api'
+import { ICard } from '../models';
+
+import { AppDispatch } from "../store";
+import { useDispatch } from "react-redux";
+
+import { addToHistory } from "../store/historySlice"
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const CardInfo: FC = () => {
     let { card_id } = useParams()
-    const [card, setCard] = useState<ICardProps>()
+    const [card, setCard] = useState<ICard | undefined>(undefined)
     const [loaded, setLoaded] = useState<boolean>(false)
+    const dispatch = useDispatch<AppDispatch>();
+    const location = useLocation().pathname;
+
+    console.log()
 
     useEffect(() => {
         getCard(card_id)
             .then(data => {
-                setCard(data)
-                setLoaded(true)
+                setCard(data);
+                dispatch(addToHistory({ path: location, name: data ? data.name : "неизвестно" }));
+                setLoaded(true);
             })
             .catch((error) => {
                 console.error("Error fetching data:", error);
             });
-    }, []);
+        }, [dispatch]);
 
-    return (
-        <>
-            <Navbar>
-                <Nav>
-                    <Link to="/card" className="nav-link p-0 text-dark" data-bs-theme="dark">
-                        Карты
-                    </Link>
-                    <Nav.Item className='mx-1'>{">"}</Nav.Item>
-                    <Nav.Item className="nav-link p-0 text-dark">
-                        {`${card ? card.name : 'неизвестно'}`}
-                    </Nav.Item>
-                </Nav>
-            </Navbar>
-            {loaded ? (
-                card ? (
+        return loaded ? (
+            card ? (
+                <>
+                    <Navbar>
+                        <Nav>
+                            <Breadcrumbs />
+                        </Nav>
+                    </Navbar>
                     <BigCCard {...card} />
-                ) : (
-                    <h3 className='text-center'>Такой карты не существует</h3>
-                )
+                </ >
             ) : (
-                <LoadAnimation />
+                <h3 className='text-center'>Такого получателя не существует</h3>
             )
-            }
-        </ >
+        ) : (
+            <LoadAnimation/>
     )
 }
 
-export { CardInfo }
+export default CardInfo 

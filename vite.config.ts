@@ -9,6 +9,6 @@ export default defineConfig({
       '/api': 'http://localhost:8080',
     }
   },
-  base: "/RIP_labs_frontend/",
+  base: "/",
   plugins: [react()]
 })
