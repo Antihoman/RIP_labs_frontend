@@ -31,7 +31,7 @@ const CardImage = ({ url, className, ...props }: CardImageProps) => {
         console.error(`Error loading image: ${url}`);
     };
 
-    return <Card.Img src={src} className={className} onError={handleError} {...props} />;
+    return <Card.Img src={src} className={className} style={{ width: '250px', paddingLeft: '75px'}} onError={handleError} {...props} />;
 };
 
 export default CardImage;

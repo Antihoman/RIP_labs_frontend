@@ -22,7 +22,7 @@ export const SmallCCard: FC<ICardProps> = ({ uuid, name, type, image_url }) => (
             <Card.Title>{name}</Card.Title>
             <Card.Text>Тип: {type}</Card.Text>
         </Card.Body>
-        <Link to={`/cards/${uuid}`} className="btn btn-primary">Подробнее</Link>
+        <Link to={`/cards/${uuid}`} className="btn btn-primary" style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px', borderColor: '#0b5ed7'}}>Подробнее</Link>
     </Card>
 )
 
