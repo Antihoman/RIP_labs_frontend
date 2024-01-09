@@ -120,36 +120,38 @@ const TurnInfo = () => {
                         <Card className='shadow text center text-md-start'>
                             <Card.Body>
                                 <InputGroup className='mb-1'>
-                                    <InputGroup.Text className='t-input-group-text'>Статус</InputGroup.Text>
-                                    <Form.Control readOnly value={turn.status} />
+                                    <InputGroup.Text className='t-input-group-text' style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px', width: '300px'}}>Статус</InputGroup.Text>
+                                    <Form.Control readOnly value={turn.status} style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px' }} />
                                 </InputGroup>
                                 <InputGroup className='mb-1'>
-                                <InputGroup.Text className='t-input-group-text'>Создана</InputGroup.Text>
-                                    <Form.Control readOnly value={turn.creation_date} />
+                                <InputGroup.Text className='t-input-group-text' style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px', width: '300px' }}>Создана</InputGroup.Text>
+                                    <Form.Control readOnly value={turn.creation_date} style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px' }}/>
                                 </InputGroup>
                                 <InputGroup className='mb-1'>
-                                    <InputGroup.Text className='t-input-group-text'>Сформирована</InputGroup.Text>
-                                    <Form.Control readOnly value={turn.formation_date ? turn.formation_date : ''} />
+                                    <InputGroup.Text className='t-input-group-text' style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px', width: '300px' }}>Сформирована</InputGroup.Text>
+                                    <Form.Control readOnly value={turn.formation_date ? turn.formation_date : ''} style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px' }}/>
                                 </InputGroup>
                                 {(turn.status == 'отклонена' || turn.status == 'завершена') && <InputGroup className='mb-1'>
-                                    <InputGroup.Text className='t-input-group-text'>{turn.status === 'отклонена' ? 'Отклонена' : 'Завершена'}</InputGroup.Text>
-                                    <Form.Control readOnly value={turn.completion_date ? turn.completion_date : ''} />
+                                    <InputGroup.Text className='t-input-group-text' style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px', width: '300px' }}>{turn.status === 'отклонена' ? 'Отклонена' : 'Завершена'} </InputGroup.Text>
+                                    <Form.Control readOnly value={turn.completion_date ? turn.completion_date : ''} style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px'}}/>
                                 </InputGroup>}
                                 <InputGroup className='mb-1'>
-                                    <InputGroup.Text className='t-input-group-text'>Взято еды</InputGroup.Text>
+                                    <InputGroup.Text className='t-input-group-text' style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px', width: '300px' }}>Взято еды</InputGroup.Text>
                                     <Form.Control
                                         readOnly={!edit}
                                         value={turn_type}
                                         onChange={(e) => setNType(e.target.value)}
+                                        style={{ backgroundColor: 'orange', color: 'white', borderRadius: '30px'}}
                                     />
-                                    {!edit && turn.status === 'черновик' && <Button onClick={() => setEdit(true)}>Изменить</Button>}
-                                    {edit && <Button variant='success' onClick={update}>Сохранить</Button>}
+                                    {!edit && turn.status === 'черновик' && <Button onClick={() => setEdit(true)} style={{borderRadius: '30px'}}>Изменить</Button>}
+                                    {edit && <Button variant='success' onClick={update} style={{borderRadius: '30px'}}>Сохранить</Button>}
                                     {edit && <Button
                                         variant='danger'
                                         onClick={() => {
                                             setNType(turn.takefood ? turn.takefood : '');
                                             setEdit(false)
-                                        }}>
+                                        }}
+                                        style={{borderRadius: '30px'}}>
                                         Отменить
                                     </Button>}
                                 </InputGroup>
@@ -166,10 +168,10 @@ const TurnInfo = () => {
                                     </ButtonGroup>
                                 }
                                 {turn.status == 'черновик' &&
-                                    <ButtonGroup className='flex-grow-1 w-100'>
-                                        <Button variant='primary' onClick={confirm}>Сформировать</Button>
-                                        <Button variant='danger' onClick={deleteN}>Удалить</Button>
-                                    </ButtonGroup>}
+                                    <div className='flex-grow-1 w-100'>
+                                    <Button variant='success' onClick={confirm} style={{borderRadius: '30px'}}>Сформировать</Button>
+                                    <Button variant='danger' onClick={deleteN} style={{borderRadius: '30px'}}>Удалить</Button>
+                                </div>}
                             </Card.Body>
                         </Card>
                         {content && <Row className='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 px-1 mt-2'>
