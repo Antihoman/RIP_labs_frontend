@@ -84,13 +84,6 @@ const AllTurns = () => {
                         selected={endDate ? new Date(endDate) : null}
                         onChange={(date: Date) => dispatch(setDateEnd(date ? date.toISOString() : null))}
                     />
-                    <Button
-                        variant="primary"
-                        size="sm"
-                        type="submit"
-                        className="shadow-lg">
-                        Поиск
-                    </Button>
                 </Form>
             </Navbar>
             < LoadAnimation loaded={loaded}>

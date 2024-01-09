@@ -73,11 +73,11 @@ const CardTable = () => {
                 <Table bordered hover>
                     <thead>
                         <tr>
-                            <th className='text-center'>Изображение</th>
-                            <th className='text-center'>Название</th>
-                            <th className='text-center'>Описание</th>
-                            <th className='text-center'>Тип</th>
-                            <th className='text-center text-nowrap'>Нужно еды</th>
+                            <th className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>Изображение</th>
+                            <th className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>Название</th>
+                            <th className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>Описание</th>
+                            <th className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>Тип</th>
+                            <th className='text-center text-nowrap' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>Нужно еды</th>
                             <th className=''></th>
                         </tr>
                     </thead>
@@ -87,18 +87,18 @@ const CardTable = () => {
                                 <td style={{ width: '15%' }} className='p-0'>
                                     <CardImage url={card.image_url} />
                                 </td>
-                                <td className='text-center'>{card.name}</td>
-                                <td className='text-center'>{card.description}</td>
-                                <td className='text-center'>{card.type}</td>
-                                <td className='text-center'>{card.needfood}</td>
-                                <td className='text-center align-middle p-0'>
+                                <td className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>{card.name}</td>
+                                <td className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>{card.description}</td>
+                                <td className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>{card.type}</td>
+                                <td className='text-center' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>{card.needfood}</td>
+                                <td className='text-center align-middle p-0' style={{ backgroundColor: 'white', color: '#0b5ed7', borderRadius: '10px' }}>
                                 <Table className='m-0'>
                                         <tbody>
                                             <tr>
                                                 <td className='py-1 border-0' style={{ background: 'transparent' }}>
                                                     <Link
                                                         to={`/cards-edit/${card.uuid}`}
-                                                        className='btn btn-sm btn-outline-primary text-decoration-none w-100' >
+                                                        className='btn btn-sm btn-outline-primary text-decoration-none w-100' style={{ backgroundColor: 'white', color: 'orange', borderRadius: '10px', borderColor: 'orange'}} >
                                                         Изменить
                                                     </Link>
                                                 </td>
@@ -108,7 +108,7 @@ const CardTable = () => {
                                                     <Button
                                                         variant='outline-danger'
                                                         size='sm'
-                                                        className='w-100'
+                                                        className='w-100' style={{ backgroundColor: 'white', color: 'red', borderRadius: '10px' }}
                                                         onClick={deleteCard(card.uuid)}>
                                                         Удалить
                                                     </Button>

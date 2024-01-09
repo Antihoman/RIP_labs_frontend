@@ -168,17 +168,17 @@ const CardInfo: FC = () => {
                                 </Card.Body>
                                     {edit ? (
                                         <ButtonGroup className='w-100'>
-                                            <Button variant='primary' type='submit'>Сохранить</Button>
-                                            {card_id != 'new' && <Button variant='danger' onClick={cancel}>Отменить</Button>}
+                                            <Button style={{ backgroundColor: 'white', color: 'green', borderRadius: '10px', borderColor: 'green'}} type='submit'>Сохранить</Button>
+                                            {card_id != 'new' && <Button style={{ backgroundColor: 'white', color: 'red', borderRadius: '10px', borderColor: 'red' }} onClick={cancel}>Отменить</Button>}
                                         </ButtonGroup>
                                     ) : (
                                         <>
                                             <Button
-                                                className='w-100'
+                                                className='w-100' style={{ backgroundColor: 'white', color: 'orange', borderRadius: '10px', borderColor: 'orange'}}
                                                 onClick={handleEditClick}>
                                                 Изменить
                                             </Button>
-                                            <Button variant='danger' className='w-100' onClick={deleteCard}>Удалить</Button>
+                                            <Button className='w-100' style={{ backgroundColor: 'white', color: 'red', borderRadius: '10px', borderColor: 'red' }} onClick={deleteCard}>Удалить</Button>
                                         </>
                                     )}
                                 </Form>
