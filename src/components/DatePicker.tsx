@@ -30,12 +30,9 @@ const DateTimePicker: FC<DatePickerProps> = ({ selected, onChange }) => {
         <DatePicker
             selected={selected}
             onChange={onChange}
-            showTimeSelect
-            timeFormat="HH:mm"
             timeIntervals={60}
             isClearable
-            timeCaption="Время"
-            dateFormat="HH:mm MM.d.yyyy"
+            dateFormat="MM.d.yyyy"
             customInput={<CustomInput />}
             className="text-nowrap"
         />

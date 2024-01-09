@@ -19,13 +19,12 @@ const CardInfo: FC = () => {
     const [loaded, setLoaded] = useState<Boolean>(false)
     const dispatch = useDispatch<AppDispatch>();
     const location = useLocation().pathname;
-    const [edit, setEdit] = useState<boolean>(false)
+    const [edit, setEdit] = useState<boolean>(true)
     const [image, setImage] = useState<File | undefined>(undefined);
     const inputFile = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!edit) {
         const getData = async () => {
             setLoaded(false);
             let data: ICard | undefined;
@@ -54,7 +53,7 @@ const CardInfo: FC = () => {
         }
 
         getData();
-}}, [dispatch]);
+}, [dispatch]);
 
     const changeString = (e: ChangeEvent<HTMLInputElement>) => {
         setCard(card ? { ...card, [e.target.id]: e.target.value } : undefined)
