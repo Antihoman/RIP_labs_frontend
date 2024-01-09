@@ -40,7 +40,6 @@ const Authorization: FC = () => {
         let expires_at = new Date(payload.exp * 1000);
         localStorage.setItem('expires_at', expires_at.toISOString());
         localStorage.setItem('access_token', response.data.access_token);
-        // console.log('Payload:', payload);
         localStorage.setItem('role', payload.role.toString());
         localStorage.setItem('login', payload.login);
         dispatch(setLoginRedux(login));
@@ -86,12 +85,12 @@ const Authorization: FC = () => {
                 >
                     Авторизироваться
                 </Button>
-
+                <Form.Group>
+                <Form.Text>Нет аккаунта? </Form.Text>
                 <Link to={'/registration'}>
-                    <Button variant="link">
                         Перейти к регистрации
-                    </Button>
                 </Link>
+                </Form.Group>
             </Form>
         </Container>
         </Card>

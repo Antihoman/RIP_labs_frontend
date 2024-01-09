@@ -21,6 +21,7 @@ function formatDate(date: Date | null): string {
 }
 
 export async function getTurns(
+    user: string,
     status: string,
     startDate: string | null,
     endDate: string | null
@@ -45,8 +46,9 @@ export async function getTurns(
                 'Content-Type': 'application/json',
             },
         })
-        .then((response) =>
-            response.data.turns.map((tr: ITurn) => ({
+        .then((response) => response.data.turns
+            .filter((tr: ITurn) => tr.customer.toLowerCase().includes(user.toLowerCase()))
+            .map((tr: ITurn) => ({
                 ...tr,
                 creation_date: formatDate(new Date(tr.creation_date)),
                 formation_date: tr.formation_date

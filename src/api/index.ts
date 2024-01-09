@@ -2,14 +2,11 @@ import { cards, draft_turn } from './MockData';
 import { ICard } from '../models';
 import axios, { AxiosRequestConfig } from 'axios';
 
-
 const ip = 'localhost'
 const port = '3000'
 export const imagePlaceholder = `${import.meta.env.BASE_URL}placeholder.jpg`
 
 export const axiosAPI = axios.create({ baseURL: `http://${ip}:${port}/api/`, timeout: 2000 });
-export const axiosImage = axios.create({ baseURL: `http://${ip}:${port}/images/`, timeout: 10000 });
-
 
 export type Response = {
     draft_turn: string   | null;

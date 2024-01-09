@@ -2,7 +2,7 @@ import './App.css'
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { AllCards, CardInfo, AllTurns, TurnInfo, Authorization, Registration } from './pages'
+import { AllCards, CardsTable, CardInfo, CardEdit, AllTurns, TurnInfo, Authorization, Registration } from './pages'
 import NavigationBar from './components/NavBar';
 
 import { AppDispatch } from "./store";
@@ -29,6 +29,8 @@ function App() {
         <Route path="/" element={<Navigate to="/cards" />} />
         <Route path="/cards" element={<AllCards />} />
         <Route path="/cards/:card_id" element={<CardInfo />} />
+        <Route path="/cards-edit" element={<AuthCheck allowedRoles={[MODERATOR]}><CardsTable /></AuthCheck>} />
+        <Route path="/cards-edit/:card_id" element={<AuthCheck allowedRoles={[MODERATOR]}><CardEdit /></AuthCheck>} />
         <Route path="/turns" element={<AuthCheck allowedRoles={[CUSTOMER, MODERATOR]}><AllTurns /></AuthCheck>} />
         <Route path="/turns/:turn_id" element={<AuthCheck allowedRoles={[CUSTOMER, MODERATOR]}><TurnInfo /></AuthCheck>} />
         <Route path="/registration" element={<Registration />} />

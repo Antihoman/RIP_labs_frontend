@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SmallCCard } from '../components/Card';
+import Card from '../components/Card';
 import LoadAnimation from '../components/LoadAnimation';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
@@ -27,12 +27,10 @@ const AllCards = () => {
                     setCards(data.cards)
                     setDraft(data.draft_turn)
                 })
-                .catch((error) => {
-                    console.error("Error fetching data:", error);
-                });
 
                 const handleSearch = (event: React.FormEvent<any>) => {
                     event.preventDefault();
+                    setCards([])
                     getCards();
                 }
             
@@ -52,9 +50,6 @@ const AllCards = () => {
                         .then(() => {
                             getCards();
                         })
-                        .catch((error) => {
-                            console.error("Error fetching data:", error);
-                        });
                 }
     return (
         <>
@@ -81,23 +76,23 @@ const AllCards = () => {
             <LoadAnimation loaded={cards.length > 0}>
                     {cards.map((card) => (
                     <div className='d-flex py-1 p-2 justify-content-center' key={card.uuid}>
-                        <SmallCCard  {...card}>
+                        <Card  {...card}>
                                 {role != 0 &&
                                     <Button
                                         variant='outline-primary'
                                         className='mt-0 rounded-bottom'
                                         onClick={addToTurn(card.uuid)}>
-                                        Добавить в корзину
+                                         +
                                     </Button>
                                 }
-                            </SmallCCard>
+                            </Card>
                     </div>
                 ))}
                 </LoadAnimation>
         </div>
         {!!role && <Link to={`/turns/${draft}`}>
                 <Button
-                    style={{ position: 'fixed', bottom: '16px', left: '16px', zIndex: '1000' }}
+                    style={{ position: 'fixed', bottom: '1520px', left: '46px', zIndex: '1000' }}
                     className="btn btn-primary"
                     disabled={!draft}>
                     Корзина

@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { BigCCard } from '../components/Card';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-
+import CardImage from '../components/CardImage';
+import { Card, Row, Navbar, ListGroup } from 'react-bootstrap';
 import LoadAnimation from '../components/LoadAnimation';
 
 import { getCard } from '../api'
@@ -11,7 +9,6 @@ import { ICard } from '../models';
 
 import { AppDispatch } from "../store";
 import { useDispatch } from "react-redux";
-
 import { addToHistory } from "../store/historySlice"
 import Breadcrumbs from '../components/Breadcrumbs';
 
@@ -36,21 +33,35 @@ const CardInfo: FC = () => {
             });
         }, [dispatch]);
 
-        return loaded ? (
-            card ? (
-                <>
-                    <Navbar>
-                        <Nav>
+        return (
+            <LoadAnimation loaded={loaded}>
+                {card ? (
+                    <>
+                        <Navbar>
                             <Breadcrumbs />
-                        </Nav>
-                    </Navbar>
-                    <BigCCard {...card} />
+                            </Navbar>
+                    <Card className='mx-auto shadow w-50 p-3 text-center text-md-start'>
+                        <Row>
+                            <div className='col-12 col-md-8 overflow-hidden text-center'>
+                                <CardImage url={card.image_url} />
+                                <Card.Title>{card.name}</Card.Title>
+                            </div>
+                            <Card.Body className='col-12 col-md-4 ps-md-0'>
+                                <ListGroup variant="flush">
+                                    <ListGroup.Item>
+                                        <Card.Text>Тип: {card.type}</Card.Text>
+                                        <Card.Text>Нужно еды: {card.needfood}</Card.Text>
+                                        <Card.Text>Описание: {card.description}</Card.Text>
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </Card.Body>
+                        </Row>
+                    </Card>
                 </ >
             ) : (
-                <h3 className='text-center'>Такого получателя не существует</h3>
-            )
-        ) : (
-            <LoadAnimation/>
+                <h3 className='text-center'>Такой карты не существует</h3>
+            )}
+        </LoadAnimation>
     )
 }
 

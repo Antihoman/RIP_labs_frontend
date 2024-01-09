@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
 import { Card, Row, Col, Navbar, InputGroup, Form, Button, ButtonGroup } from 'react-bootstrap';
 
 import { axiosAPI } from "../api";
 import { getTurn } from '../api/Turns';
-import { AppDispatch } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { ITurn, ICard } from "../models";
 import { addToHistory } from "../store/historySlice";
 import LoadAnimation from '../components/LoadAnimation';
-import { SmallCCard } from '../components/Card';
+import CardCard from '../components/Card';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { MODERATOR } from '../components/AuthCheck';
 
 
 const TurnInfo = () => {
     let { turn_id } = useParams()
     const [turn, setTurn] = useState<ITurn | null>(null)
     const [content, setContent] = useState<ICard[] | null>([])
+    const role = useSelector((state: RootState) => state.user.role);
     const [loaded, setLoaded] = useState(false)
     const dispatch = useDispatch<AppDispatch>();
     const location = useLocation().pathname;
@@ -25,7 +27,6 @@ const TurnInfo = () => {
     const navigate = useNavigate()
 
     const getData = () => {
-        setLoaded(false)
         getTurn(turn_id)
             .then(data => {
                 if (data === null) {
@@ -37,13 +38,7 @@ const TurnInfo = () => {
                     setContent(data.cards);
 
                 }
-                setLoaded(true)
             })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-                setLoaded(true)
-            });
-        setLoaded(true)
     }
 
     const update = () => {
@@ -60,15 +55,13 @@ const TurnInfo = () => {
                 }
             })
             .then(() => getData())
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
         setEdit(false);
     }
 
     useEffect(() => {
+        dispatch(addToHistory({ path: location, name: "Ход" }))
         getData()
-        dispatch(addToHistory({ path: location, name: "Карты" }))
+        setLoaded(true)
 
     }, [dispatch]);
 
@@ -79,9 +72,6 @@ const TurnInfo = () => {
         }
         axiosAPI.delete(`/turns/delete_card/${id}`, { headers: { 'Authorization': `Bearer ${accessToken}`, } })
             .then(() => getData())
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
     }
 
     const confirm = () => {
@@ -107,9 +97,14 @@ const TurnInfo = () => {
             .then(_ => {
                 navigate('/cards')
             })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
+        }
+
+        const moderator_confirm = (confirm: boolean) => () => {
+            const accessToken = localStorage.getItem('access_token');
+            axiosAPI.put(`/turns/${turn?.uuid}/moderator_confirm`,
+                { confirm: confirm },
+                { headers: { 'Authorization': `Bearer ${accessToken}`, } })
+                .then(() => getData())
     }
 
     console.log(turn)
@@ -119,7 +114,7 @@ const TurnInfo = () => {
             {turn ? (
                 <>
                     <Navbar>
-                            <Breadcrumbs />
+                        <Breadcrumbs />
                     </Navbar>
                     <Col className='p-3 pt-1'>
                         <Card className='shadow text center text-md-start'>
@@ -137,7 +132,7 @@ const TurnInfo = () => {
                                     <Form.Control readOnly value={turn.formation_date ? turn.formation_date : ''} />
                                 </InputGroup>
                                 {(turn.status == 'отклонена' || turn.status == 'завершена') && <InputGroup className='mb-1'>
-                                    <InputGroup.Text className='t-input-group-text'>{turn.status === 'отклонена' ? 'Отклонена' : 'Подтверждена'}</InputGroup.Text>
+                                    <InputGroup.Text className='t-input-group-text'>{turn.status === 'отклонена' ? 'Отклонена' : 'Завершена'}</InputGroup.Text>
                                     <Form.Control readOnly value={turn.completion_date ? turn.completion_date : ''} />
                                 </InputGroup>}
                                 <InputGroup className='mb-1'>
@@ -162,7 +157,14 @@ const TurnInfo = () => {
                                     <InputGroup className='mb-1'>
                                         <InputGroup.Text className='t-input-group-text'>Статус отправки</InputGroup.Text>
                                         <Form.Control readOnly value={turn.sending_status ? turn.sending_status : ''} />
-                                    </InputGroup>}
+                                        </InputGroup>
+                                }
+                                {turn.status == 'сформировано' && role == MODERATOR &&
+                                    <ButtonGroup className='flex-grow-1 w-100'>
+                                        <Button variant='primary' onClick={moderator_confirm(true)}>Подтвердить</Button>
+                                        <Button variant='danger' onClick={moderator_confirm(false)}>Отменить</Button>
+                                    </ButtonGroup>
+                                }
                                 {turn.status == 'черновик' &&
                                     <ButtonGroup className='flex-grow-1 w-100'>
                                         <Button variant='primary' onClick={confirm}>Сформировать</Button>
@@ -173,7 +175,7 @@ const TurnInfo = () => {
                         {content && <Row className='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 px-1 mt-2'>
                             {content.map((card) => (
                                 <div className='d-flex p-2 justify-content-center' key={card.uuid}>
-                                    <SmallCCard  {...card}>
+                                    <CardCard  {...card}>
                                         {turn.status == 'черновик' &&
                                             <Button
                                                 variant='outline-danger'
@@ -181,14 +183,14 @@ const TurnInfo = () => {
                                                 onClick={delFromTurn(card.uuid)}>
                                                 Удалить
                                             </Button>}
-                                    </SmallCCard>
+                                    </CardCard>
                                 </div>
                             ))}
                         </Row>}
                     </Col>
                 </>
             ) : (
-                <h4 className='text-center'>Такой карты не существует</h4>
+                <h4 className='text-center'>Такого хода не существует</h4>
             )}
         </LoadAnimation>
     )
