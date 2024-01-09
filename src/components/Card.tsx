@@ -8,7 +8,7 @@ export interface ICardProps {
     uuid: string
     name: string
     type: string
-    need_food: number
+    needfood: number
     description: string
     image_url: string
 }
@@ -26,7 +26,7 @@ export const SmallCCard: FC<ICardProps> = ({ uuid, name, type, image_url }) => (
     </Card>
 )
 
-export const BigCCard: FC<ICardProps> = ({ name, type, image_url, description, need_food }) => (
+export const BigCCard: FC<ICardProps> = ({ name, type, image_url, description, needfood }) => (
     <Card className='shadow text-center text-md-start'>
         <div className='row'>
             <div className='col-12 col-md-8 overflow-hidden'>{}
@@ -36,7 +36,7 @@ export const BigCCard: FC<ICardProps> = ({ name, type, image_url, description, n
                 <ListGroup variant="flush">
                     <ListGroup.Item>
                         <Card.Title>{name}</Card.Title>
-                        <Card.Text>Нужно еды: {need_food}</Card.Text>
+                        <Card.Text>Нужно еды: {needfood}</Card.Text>
                         <Card.Text>Тип: {type}</Card.Text>
                         <Card.Text>Описание: {description}</Card.Text>
                     </ListGroup.Item>
