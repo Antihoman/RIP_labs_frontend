@@ -13,3 +13,7 @@ $box-shadow-sm: 0 .250rem .5rem rgba($black, .25);
 
 // Import all of Bootstrap's CSS
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+body {
+    background-color: aquamarine;
+}
